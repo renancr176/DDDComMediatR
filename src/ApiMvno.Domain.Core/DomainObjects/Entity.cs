@@ -1,0 +1,94 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using ApiMvno.Domain.Core.Messages;
+
+namespace ApiMvno.Domain.Core.DomainObjects;
+
+public abstract class Entity
+{
+    [Column(Order = 1)]
+    public Guid Id { get; protected set; }
+    [Column(Order = 97)]
+    public DateTime CreatedAt { get; protected set; }
+    [Column(Order = 98)]
+    public DateTime? UpdatedAt { get; set; }
+    [Column(Order = 99)]
+    public DateTime? DeletedAt { get; set; }
+
+    private List<Event> _notifications;
+    public IReadOnlyCollection<Event> Notifications => _notifications?.AsReadOnly();
+
+    protected Entity()
+    {
+        Id = Guid.NewGuid();
+        CreatedAt = DateTime.UtcNow;
+    }
+
+    protected Entity(Guid id)
+        : this()
+    {
+        Id = id;
+    }
+
+    public void AddEvent(Event evento)
+    {
+        _notifications = _notifications ?? new List<Event>();
+        _notifications.Add(evento);
+    }
+
+    public void RemoveEvent(Event eventItem)
+    {
+        _notifications?.Remove(eventItem);
+    }
+
+    public void ClearEvents()
+    {
+        _notifications?.Clear();
+    }
+
+    public override bool Equals(object obj)
+    {
+        var compareTo = obj as Entity;
+
+        if (ReferenceEquals(this, compareTo)) return true;
+        if (ReferenceEquals(null, compareTo)) return false;
+
+        return Id.Equals(compareTo.Id);
+    }
+
+    public static bool operator ==(Entity a, Entity b)
+    {
+        if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            return true;
+
+        if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
+            return false;
+
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(Entity a, Entity b)
+    {
+        return !(a == b);
+    }
+
+    public override int GetHashCode()
+    {
+        return (GetType().GetHashCode() * 907) + Id.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return GetType().Name + "[Id = " + Id + "]";
+    }
+
+    public virtual bool IsVaid()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public abstract class EntityIntId : Entity
+{
+    [Column(Order = 1)]
+    public new long Id { get; protected set; }
+}
