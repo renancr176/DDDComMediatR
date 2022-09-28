@@ -15,7 +15,7 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand,
     private readonly IMapper _mapper;
     private readonly ICompanyRepository _companyRepository;
     private readonly ICompanyValidator _companyValidator;
-
+    
     public CreateCompanyCommandHandler(IMediator mediator, IMapper mapper, ICompanyRepository companyRepository,
         ICompanyValidator companyValidator)
     {
@@ -38,21 +38,23 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand,
                     await _mediator.Publish(new DomainNotification(error.ErrorCode, error.ErrorMessage));
                 }
 
-                return default;
+                return default!;
             }
+            
 
             company.AddEvent(new CompanyCreatedEvent(company));
 
             await _companyRepository.InsertAsync(company);
             await _companyRepository.UnitOfWork.Commit();
-
+            
+            
             return _mapper.Map<CompanyModel>(company);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             await _mediator.Publish(new DomainNotification("InternalServerError", "Ouve um erro interno, tenta novamente mais tarde."));
         }
 
-        return default;
+        return default!;
     }
 }

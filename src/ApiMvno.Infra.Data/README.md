@@ -17,6 +17,4 @@ Update-Database NomeDaPenultimaMigration -Context MvnoDbContext
 Remove-Migration -Context MvnoDbContext
 ```
 
-
-
 Documentação das [migrations.](https://docs.microsoft.com/pt-br/ef/core/managing-schemas/migrations/)

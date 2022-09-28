@@ -5,13 +5,9 @@ namespace ApiMvno.Domain.Core.DomainObjects;
 
 public abstract class Entity
 {
-    [Column(Order = 1)]
     public Guid Id { get; protected set; }
-    [Column(Order = 97)]
     public DateTime CreatedAt { get; protected set; }
-    [Column(Order = 98)]
     public DateTime? UpdatedAt { get; set; }
-    [Column(Order = 99)]
     public DateTime? DeletedAt { get; set; }
 
     private List<Event> _notifications;
@@ -89,6 +85,5 @@ public abstract class Entity
 
 public abstract class EntityIntId : Entity
 {
-    [Column(Order = 1)]
     public new long Id { get; protected set; }
 }

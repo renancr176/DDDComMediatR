@@ -1,15 +1,15 @@
 ﻿using System.Reflection;
 using System.Text.Json;
+using ApiMvno.Domain.Core.Options;
+using ApiMvno.Domain.Entities;
 using ApiMvno.Infra.CrossCutting.IoC;
 using ApiMvno.Infra.Data.Contexts.MvnoDb;
 using ApiMvno.Services.Api.Models.Responses;
-using ApiMvno.Services.Api.Options;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -67,17 +67,24 @@ public class Startup : IStartup
             c.IncludeXmlComments(filePath);
         });
 
+        if (Environment.IsProduction())
+        {
+            services.AddStackExchangeRedisCache(action => {
+                action.InstanceName = Configuration.GetValue<string>("RedisOptions:InstanceName");
+                action.Configuration = Configuration.GetValue<string>("RedisOptions:Connection");
+            });
+        }
+        else
+        {
+            services.AddDistributedMemoryCache();
+        }
+
         services.Configure<ApiBehaviorOptions>(options =>
         {
             options.SuppressModelStateInvalidFilter = true;
         });
 
-        #region Options
-
-        var appSettingJwtTokenOptionsSection = Configuration.GetSection(nameof(JwtTokenOptions));
-        services.Configure<JwtTokenOptions>(appSettingJwtTokenOptionsSection);
-
-        #endregion
+        services.RegisterServices(Configuration);
 
         #region Security
 
@@ -99,7 +106,7 @@ public class Startup : IStartup
                 });
         });
 
-        services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
+        services.AddIdentity<User, IdentityRole<Guid>>(options =>
         {
             options.Password.RequiredLength = 8;
             options.Password.RequireDigit = true;
@@ -110,7 +117,7 @@ public class Startup : IStartup
         .AddEntityFrameworkStores<MvnoDbContext>()
         .AddDefaultTokenProviders();
 
-        var appSettingJwtTokenOptions = appSettingJwtTokenOptionsSection.Get<JwtTokenOptions>();
+        var appSettingJwtTokenOptions = Configuration.GetSection(JwtTokenOptions.sectionKey).Get<JwtTokenOptions>();
 
         services.AddAuthentication(options =>
         {
@@ -172,8 +179,6 @@ public class Startup : IStartup
 
         #endregion
         
-        services.RegisterServices(Configuration);
-
         Init(services.BuildServiceProvider());
     }
 

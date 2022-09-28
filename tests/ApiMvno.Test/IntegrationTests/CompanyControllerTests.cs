@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Threading.Tasks;
+using ApiMvno.Application.Commands.AddressCommands;
 using ApiMvno.Application.Commands.CompanyCommands;
 using ApiMvno.Application.Models;
 using ApiMvno.Services.Api;
@@ -40,10 +40,10 @@ public class CompanyControllerTests
         do
         {
             var company = _testsFixture.EntityFixture.CompanyFixture.Valid();
-            request = new CreateCompanyCommand()
-            {
-                Name = company.Name
-            };
+            var address = new CreateAddressCommand();
+
+            request = new CreateCompanyCommand();
+            
         } while (await _testsFixture.MvnoDbContext.Companies.AnyAsync(c =>
                      c.Name.Trim().ToLower() == request.Name.Trim().ToLower()));
         

@@ -178,7 +178,7 @@ public abstract class RepositoryIntId<TEntity> : Repository<TEntity>, IRepositor
 
     public virtual async Task<TEntity> GetByIdAsync(long id)
     {
-        return await BaseQuery.FirstOrDefaultAsync(e => e.Id == id);
+        return await BaseQuery.FirstOrDefaultAsync(e => e.Id == id);    
     }
 
     public virtual async Task DeleteAsync(long id)

@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 using ApiMvno.Infra.Data.Contexts.MvnoDb;
 using ApiMvno.Services.Api;
-using ApiMvno.Services.Api.Models.Responses;
-using ApiMvno.Test.Extensions;
 using ApiMvno.Test.Fixtures;
 using Bogus;
 using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace ApiMvno.Test.IntegrationTests.Config;

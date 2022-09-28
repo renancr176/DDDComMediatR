@@ -1,9 +1,13 @@
 ﻿using ApiMvno.Application.AutoMapper;
 using ApiMvno.Application.Commands;
 using ApiMvno.Application.Events;
+using ApiMvno.Application.Services;
 using ApiMvno.Domain.Core.Messages.CommonMessages.Notifications;
+using ApiMvno.Domain.Core.Options;
 using ApiMvno.Domain.Interfaces.Validators;
 using ApiMvno.Domain.Validators;
+using ApiMvno.Infra.CrossCutting.Mail;
+using ApiMvno.Infra.CrossCutting.Sms;
 using ApiMvno.Infra.Data.Contexts.MvnoDb;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +21,15 @@ public static class DependencyInjection
     {
         services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
         services.AddAutoMapperProfiles();
+
+        #region Options
+
+        services.Configure<JwtTokenOptions>(configuration.GetSection(JwtTokenOptions.sectionKey));
+        services.Configure<MailApiOptions>(configuration.GetSection(MailApiOptions.sectionKey));
+        services.Configure<SmsApiOptions>(configuration.GetSection(SmsApiOptions.sectionKey));
+        services.Configure<GeneralOptions>(configuration.GetSection(GeneralOptions.sectionKey));
+
+        #endregion
 
         #region DbContexts
 
@@ -38,7 +51,16 @@ public static class DependencyInjection
         services.AddEvents();
         #endregion
 
-        #region Services
+        #region Internal Services
+
+        services.AddServices();
+
+        #endregion
+
+        #region External Services
+
+        services.AddScoped<IMailService, MailService>();
+        services.AddScoped<ISmsService, SmsService>();
 
         #endregion
     }

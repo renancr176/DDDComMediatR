@@ -10,10 +10,14 @@ public abstract class EntityMap<TEntity> : IEntityTypeConfiguration<TEntity> whe
     {
         builder.HasKey(entity => entity.Id);
 
+        builder.Property(entity => entity.Id)
+            .HasColumnOrder(1);
+
         builder.Property(entity => entity.CreatedAt)
             .IsRequired();
 
         builder.Ignore(entity => entity.Notifications);
+        
     }
 }
 
@@ -24,9 +28,12 @@ public abstract class EntityIntIdMap<TEntity> : IEntityTypeConfiguration<TEntity
         builder.HasKey(entity => entity.Id);
 
         builder.Property(entity => entity.Id)
-            .UseIdentityColumn();
+            .UseIdentityColumn()
+            .HasColumnOrder(1);
 
         builder.Property(entity => entity.CreatedAt)
             .IsRequired();
+
+        builder.Ignore(entity => entity.Notifications);
     }
 }

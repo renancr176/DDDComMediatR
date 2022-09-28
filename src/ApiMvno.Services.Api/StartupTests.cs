@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
+using ApiMvno.Domain.Core.Options;
 using ApiMvno.Infra.CrossCutting.IoC;
 using ApiMvno.Infra.Data.Contexts.MvnoDb;
-using ApiMvno.Services.Api.Options;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,13 +35,6 @@ public class StartupTests
         {
             options.SuppressModelStateInvalidFilter = true;
         });
-
-        #region Options
-
-        var appSettingJwtTokenOptionsSection = Configuration.GetSection(nameof(JwtTokenOptions));
-        services.Configure<JwtTokenOptions>(appSettingJwtTokenOptionsSection);
-
-        #endregion
 
         services.RegisterServices(Configuration);
 

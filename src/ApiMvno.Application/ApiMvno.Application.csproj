@@ -7,9 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\CompanyCommands\" />
-    <Folder Include="Models\" />
     <Folder Include="AutoMapper\" />
+    <Folder Include="Commands\PhoneCommands\" />
     <Folder Include="Services\" />
     <Folder Include="Queries\" />
   </ItemGroup>
@@ -18,11 +17,15 @@
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ApiMvno.Domain.Core\ApiMvno.Domain.Core.csproj" />
     <ProjectReference Include="..\ApiMvno.Domain\ApiMvno.Domain.csproj" />
+    <ProjectReference Include="..\ApiMvno.Infra.CrossCutting.Mail\ApiMvno.Infra.CrossCutting.Mail.csproj" />
   </ItemGroup>
 
 </Project>

@@ -61,5 +61,17 @@ namespace ApiMvno.Services.Api.Controllers
                 Errors = GetErrorMessages()
             });
         }
+
+        protected IActionResult InvalidModelResponse()
+        {
+            return Response(new BaseResponse()
+            {
+                Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => new BaseResponseError()
+                {
+                    ErrorCode = "ModelError",
+                    Message = e.ErrorMessage
+                }).ToList()
+            });
+        }
     }
 }

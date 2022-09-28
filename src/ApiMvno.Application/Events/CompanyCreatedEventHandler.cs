@@ -6,6 +6,7 @@ public class CompanyCreatedEventHandler : INotificationHandler<CompanyCreatedEve
 {
     public async Task Handle(CompanyCreatedEvent notification, CancellationToken cancellationToken)
     {
+
         //Cadastra no rabbit 
 
         //notification.Company;

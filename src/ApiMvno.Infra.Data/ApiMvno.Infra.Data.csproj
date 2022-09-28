@@ -29,10 +29,4 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Contexts\MvnoDb\Mappings\" />
-    <Folder Include="Contexts\MvnoDb\Seeders\" />
-    <Folder Include="Contexts\MvnoDb\Repositories\" />
-  </ItemGroup>
-
 </Project>

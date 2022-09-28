@@ -19,12 +19,17 @@ public static class MvnoDb
         #region Repositories
 
         services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<IAddressesRepository, AddressesRepository>();
+        services.AddScoped<ICompanyAddressesRepository, CompanyAddressesRepository>();
+        services.AddScoped<ILineTypeRepository, LineTypeRepository>();
 
         #endregion
 
         #region Seeders
 
         services.AddScoped<IRoleSeed, RoleSeed>();
+        services.AddScoped<ILineTypeSeed, LineTypeSeed>();
+        //services.AddScoped<IAddressTypeSeed, AddressTypeSeed>();
 
         #endregion
     }
@@ -39,6 +44,8 @@ public static class MvnoDb
         Task.Run(async () =>
         {
             await serviceProvider.GetService<IRoleSeed>().SeedAsync();
+            await serviceProvider.GetService<ILineTypeSeed>().SeedAsync();
+            //await serviceProvider.GetService<IAddressTypeSeed>().SeedAsync();
         }).Wait();
 
         #endregion

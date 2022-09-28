@@ -15,12 +15,14 @@ public class CompanyFixture : IDisposable
 
     public Company Valid()
     {
-        return new Company(Faker.Company.CompanyName());
+        //return new Company();
+        throw new NotImplementedException();
     }
 
     public Company Invalid()
     {
-        return new Company(String.Empty);
+        //return new Company();
+        throw new NotImplementedException();
     }
 
     public void Dispose()
