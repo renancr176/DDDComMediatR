@@ -33,9 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6E300A22
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiMvno.Test", "tests\ApiMvno.Test\ApiMvno.Test.csproj", "{2C521167-EAA5-4E97-B358-70C7BE9F7BCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiMvno.Infra.CrossCutting.Mail", "src\ApiMvno.Infra.CrossCutting.Mail\ApiMvno.Infra.CrossCutting.Mail.csproj", "{59AA8C36-ED52-49EA-A700-EA788D9FD2D7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiMvno.Infra.CrossCutting.Sms", "src\ApiMvno.Infra.CrossCutting.Sms\ApiMvno.Infra.CrossCutting.Sms.csproj", "{3B27F140-BB8E-492A-88E1-014FD9540AB9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildDeploy", "BuildDeploy", "{1D248CD4-07F7-4794-9082-E88570A35BA9}"
+	ProjectSection(SolutionItems) = preProject
+		bitbucket-pipelines.yml = bitbucket-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,14 +72,6 @@ Global
 		{2C521167-EAA5-4E97-B358-70C7BE9F7BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C521167-EAA5-4E97-B358-70C7BE9F7BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C521167-EAA5-4E97-B358-70C7BE9F7BCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59AA8C36-ED52-49EA-A700-EA788D9FD2D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59AA8C36-ED52-49EA-A700-EA788D9FD2D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59AA8C36-ED52-49EA-A700-EA788D9FD2D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59AA8C36-ED52-49EA-A700-EA788D9FD2D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B27F140-BB8E-492A-88E1-014FD9540AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B27F140-BB8E-492A-88E1-014FD9540AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B27F140-BB8E-492A-88E1-014FD9540AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B27F140-BB8E-492A-88E1-014FD9540AB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,8 +86,6 @@ Global
 		{E69AFA4F-812D-4D99-8CE4-E13D68F6D7DA} = {99758402-AE88-4EAB-8371-695E76F967D5}
 		{46DCC82B-9C20-4108-A953-CA31C553FAF7} = {2FA38D97-4836-4C21-8574-29DC7D2AE974}
 		{2C521167-EAA5-4E97-B358-70C7BE9F7BCE} = {6E300A22-F66B-4703-8B03-58D65B318CF9}
-		{59AA8C36-ED52-49EA-A700-EA788D9FD2D7} = {99758402-AE88-4EAB-8371-695E76F967D5}
-		{3B27F140-BB8E-492A-88E1-014FD9540AB9} = {99758402-AE88-4EAB-8371-695E76F967D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D213E36-2DE6-4205-AF3B-F3155A3DF3B9}

@@ -20,18 +20,14 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Mappings
             builder.Property(entity => entity.Number)
                 .HasColumnOrder(3);
 
-            builder.Property(entity => entity.Teste)
-                .IsRequired()
+            builder.Property(entity => entity.CreatedAt)
                 .HasColumnOrder(4);
 
-            builder.Property(entity => entity.CreatedAt)
+            builder.Property(entity => entity.UpdatedAt)
                 .HasColumnOrder(5);
 
-            builder.Property(entity => entity.UpdatedAt)
-                .HasColumnOrder(6);
-
             builder.Property(entity => entity.DeletedAt)
-                .HasColumnOrder(7);
+                .HasColumnOrder(6);
 
             #region Relationships
 

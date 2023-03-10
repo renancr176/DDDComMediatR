@@ -1,6 +1,7 @@
 ﻿using ApiMvno.Domain.Interfaces.Repositories;
 using ApiMvno.Infra.Data.Contexts.MvnoDb.Repositories;
 using ApiMvno.Infra.Data.Contexts.MvnoDb.Seeders;
+using ApiMvno.Infra.Data.Contexts.MvnoDb.Seeders.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,22 +15,33 @@ public static class MvnoDb
         services.AddDbContext<MvnoDbContext>(dbContextOptions =>
             dbContextOptions.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped<MvnoDbContext>();
-
         #region Repositories
 
+        #region Shared
+
+        services.AddScoped<IAddressTypeRepository, AddressTypeRepository>();
+        services.AddScoped<IAddressRepository, AddressRepository>();
+        services.AddScoped<ICountryRepository, CountryRepository>();
+        services.AddScoped<IPhoneTypeRepository, PhoneTypeRepository>();
+        services.AddScoped<IPhoneRepository, PhoneRepository>();
+
+        #endregion
+
+        #region Company
+
+        services.AddScoped<ICompanyAddressRepository, CompanyAddressRepository>();
+        services.AddScoped<ICompanyPhoneRepository, CompanyPhoneRepository>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
-        services.AddScoped<IAddressesRepository, AddressesRepository>();
-        services.AddScoped<ICompanyAddressesRepository, CompanyAddressesRepository>();
-        services.AddScoped<ILineTypeRepository, LineTypeRepository>();
+
+        #endregion
 
         #endregion
 
         #region Seeders
 
-        services.AddScoped<IRoleSeed, RoleSeed>();
-        services.AddScoped<ILineTypeSeed, LineTypeSeed>();
-        //services.AddScoped<IAddressTypeSeed, AddressTypeSeed>();
+        services.AddScoped<IAddressTypeSeed, AddressTypeSeed>();
+        services.AddScoped<ICountrySeed, CountrySeed>();
+        services.AddScoped<IPhoneTypeSeed, PhoneTypeSeed>();
 
         #endregion
     }
@@ -43,9 +55,9 @@ public static class MvnoDb
 
         Task.Run(async () =>
         {
-            await serviceProvider.GetService<IRoleSeed>().SeedAsync();
-            await serviceProvider.GetService<ILineTypeSeed>().SeedAsync();
-            //await serviceProvider.GetService<IAddressTypeSeed>().SeedAsync();
+            await serviceProvider.GetService<IAddressTypeSeed>().SeedAsync();
+            await serviceProvider.GetService<ICountrySeed>().SeedAsync();
+            await serviceProvider.GetService<IPhoneTypeSeed>().SeedAsync();
         }).Wait();
 
         #endregion

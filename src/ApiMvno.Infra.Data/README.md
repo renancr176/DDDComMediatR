@@ -1,6 +1,6 @@
 ## Banco de dados
 
-Abra o "Package Manager Console" e selecione o projeto "5 - Infra\5.1 - Data\ApiMvno.Infra.Data" como opção do "Default project"
+Abra o "Package Manager Console" e selecione o projeto "ApiMvno.Infra.Data" como opção do "Default project"
 
 Comando para gerar uma nova migration
 ```bash

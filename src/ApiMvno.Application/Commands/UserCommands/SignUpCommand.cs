@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using ApiMvno.Application.Models;
 using ApiMvno.Domain.Core.Enums;
 using ApiMvno.Domain.Core.Messages;

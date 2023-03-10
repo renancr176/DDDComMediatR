@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ApiMvno.Domain.Core.Extensions;
 
@@ -137,6 +139,28 @@ public static class StringExtensions
         return Uri.TryCreate(url, UriKind.Absolute, out var uri);
     }
 
+    public static bool IsValidJson(this string json)
+    {
+        if (string.IsNullOrWhiteSpace(json)) 
+            return false;
+
+        json = json.Trim();
+
+        if ((json.StartsWith("{") && json.EndsWith("}")) || //For object
+            (json.StartsWith("[") && json.EndsWith("]"))) //For array
+        {
+            try
+            {
+                var obj = JToken.Parse(json);
+                return true;
+            }
+            catch (JsonReaderException) {}
+            catch (Exception) {}
+        }
+
+        return false;
+    }
+
     public static string Base64Encode(this string plainText)
     {
         var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -177,6 +201,13 @@ public static class StringExtensions
     {
         return !string.IsNullOrEmpty(numbers)
             ? Regex.Replace(numbers, @"\D", "")
+            : String.Empty;
+    }
+    
+    public static string RemoveNonAlphanumeric(this string text)
+    {
+        return !string.IsNullOrEmpty(text)
+            ? Regex.Replace(text, "[^a-zA-Z0-9]", "")
             : String.Empty;
     }
 
@@ -228,5 +259,17 @@ public static class StringExtensions
         }
 
         return documento;
+    }
+
+    public static bool ValueExistsInEnum<TEnum>(this string value) where TEnum : struct, Enum
+    {
+        var enumValues = Enum.GetValues<TEnum>().ToList();
+        return enumValues != null && enumValues.Any(e => e.ToString().Trim().ToLower() == value.Trim().ToLower());
+    }
+
+    public static TEnum? StringToEnum<TEnum>(this string value) where TEnum : struct, Enum
+    {
+        var enumValues = Enum.GetValues<TEnum>().ToList();
+        return enumValues != null ? enumValues.FirstOrDefault(e => e.ToString().Trim().ToLower() == value.Trim().ToLower()) : null;
     }
 }

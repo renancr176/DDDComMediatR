@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiMvno.Services.Api.Controllers
 {
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
         private readonly DomainNotificationHandler _notifications;
         private readonly IMediator _mediatorHandler;
 
         protected Guid ClienteId;
 
-        protected BaseController(INotificationHandler<DomainNotification> notifications,
+        public BaseController(INotificationHandler<DomainNotification> notifications,
             IMediator mediatorHandler,
             IHttpContextAccessor httpContextAccessor)
         {
@@ -46,11 +46,11 @@ namespace ApiMvno.Services.Api.Controllers
             _mediatorHandler.Publish(new DomainNotification(errorCode, errorMessage));
         }
 
-        protected new IActionResult Response(object result = null)
+        protected new IActionResult Response(object? result = null)
         {
             if (ValidOperation())
             {
-                return Ok(new BaseResponse<object>()
+                return Ok(new BaseResponse<object?>()
                 {
                     Data = result
                 });
@@ -64,7 +64,7 @@ namespace ApiMvno.Services.Api.Controllers
 
         protected IActionResult InvalidModelResponse()
         {
-            return Response(new BaseResponse()
+            return BadRequest(new BaseResponse()
             {
                 Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => new BaseResponseError()
                 {

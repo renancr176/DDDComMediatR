@@ -15,6 +15,7 @@ dist/
 
 # Log files
 *.log
+!src/ApiMvno.Infra.CrossCutting.Log
 
 # Package files
 *.jar

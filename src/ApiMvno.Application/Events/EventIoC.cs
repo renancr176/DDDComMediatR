@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiMvno.Application.Events;
 
@@ -7,6 +6,6 @@ public static class EventIoC
 {
     public static void AddEvents(this IServiceCollection services)
     {
-        services.AddScoped<INotificationHandler<CompanyCreatedEvent>, CompanyCreatedEventHandler>();
+        //services.AddScoped<INotificationHandler<CustomEvent>, CustomEventHandler>();
     }
 }

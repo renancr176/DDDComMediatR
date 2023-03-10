@@ -11,6 +11,4 @@ public static class EnumExtensions
         var attributes = memInfo.GetCustomAttributes<T>(false);
         return attributes.FirstOrDefault();
     }
-
-
 }

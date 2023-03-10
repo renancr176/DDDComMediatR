@@ -3,5 +3,8 @@
 public enum RoleEnum
 {
     Admin,
-    Customer
+    Customer,
+    BackService,
+    Portability,
+    CompanyAdmin
 }

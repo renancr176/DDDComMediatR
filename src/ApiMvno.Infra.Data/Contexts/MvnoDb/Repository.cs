@@ -24,7 +24,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
         await DbSet.AddAsync(obj);
     }
 
-    public async Task InsertRangeAsync(ICollection<TEntity> obj)
+    public virtual async Task InsertRangeAsync(ICollection<TEntity> obj)
     {
         await DbSet.AddRangeAsync(obj);
     }
@@ -35,7 +35,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
         DbSet.Update(obj);
     }
 
-    public async Task UpdateRangeAsync(IEnumerable<TEntity> obj)
+    public virtual async Task UpdateRangeAsync(IEnumerable<TEntity> obj)
     {
         foreach (var entity in obj)
         {
@@ -44,14 +44,34 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
         DbSet.UpdateRange(obj);
     }
 
-    public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+    public virtual async Task<IEnumerable<TEntity>?> FindAsync(Expression<Func<TEntity, bool>> predicate, IEnumerable<string> includes = null)
     {
-        return await BaseQuery.Where(predicate).ToListAsync();
+        var query = BaseQuery;
+
+        if (includes != null && includes.Any())
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        return await query.Where(predicate).ToListAsync();
     }
 
-    public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+    public virtual async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, IEnumerable<string> includes = null)
     {
-        return await BaseQuery.FirstOrDefaultAsync(predicate);
+        var query = BaseQuery;
+
+        if (includes != null && includes.Any())
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        return await query.FirstOrDefaultAsync(predicate);
     }
 
     public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
@@ -69,24 +89,44 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
         return await BaseQuery.CountAsync(predicate);
     }
 
-    public virtual async Task<TEntity> GetByIdAsync(Guid id)
+    public virtual async Task<TEntity?> GetByIdAsync(Guid id, IEnumerable<string> includes = null)
     {
-        return await BaseQuery.FirstOrDefaultAsync(e => e.Id == id);
+        var query = BaseQuery;
+
+        if (includes != null && includes.Any())
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        return await query.FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntity>?> GetAllAsync(IEnumerable<string> includes = null)
     {
-        return await BaseQuery.ToListAsync();
+        var query = BaseQuery;
+
+        if (includes != null && includes.Any())
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        return await query.ToListAsync();
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetPagedAsync(int pageIndex, int pageSize,
+    public virtual async Task<IEnumerable<TEntity>?> GetPagedAsync(int pageIndex, int pageSize,
         Expression<Func<TEntity, bool>> predicate = null,
         Dictionary<OrderByEnum, Expression<Func<TEntity, object>>> ordenations = null)
     {
         return await GetPagedAsync(pageIndex, pageSize, null, predicate, ordenations);
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetPagedAsync(int pageIndex, int pageSize,
+    public virtual async Task<IEnumerable<TEntity>?> GetPagedAsync(int pageIndex, int pageSize,
         IEnumerable<string> includes, Expression<Func<TEntity, bool>> predicate = null,
         Dictionary<OrderByEnum, Expression<Func<TEntity, object>>> ordenations = null)
     {
@@ -95,7 +135,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
 
         if (ordenations != null && ordenations.Any())
         {
-            query = (IOrderedQueryable<TEntity>)query;
+            query = (IOrderedQueryable<TEntity?>)query;
             var firstOrder = true;
             foreach (var orderBy in ordenations)
             {
@@ -108,7 +148,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
                         }
                         else
                         {
-                            query = ((IOrderedQueryable<TEntity>)query).ThenBy(orderBy.Value);
+                            query = ((IOrderedQueryable<TEntity?>)query).ThenBy(orderBy.Value);
                         }
 
                         break;
@@ -119,7 +159,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
                         }
                         else
                         {
-                            query = ((IOrderedQueryable<TEntity>)query).ThenByDescending(orderBy.Value);
+                            query = ((IOrderedQueryable<TEntity?>)query).ThenByDescending(orderBy.Value);
                         }
                         break;
                 }
@@ -176,7 +216,7 @@ public abstract class RepositoryIntId<TEntity> : Repository<TEntity>, IRepositor
     {
     }
 
-    public virtual async Task<TEntity> GetByIdAsync(long id)
+    public virtual async Task<TEntity?> GetByIdAsync(long id)
     {
         return await BaseQuery.FirstOrDefaultAsync(e => e.Id == id);    
     }

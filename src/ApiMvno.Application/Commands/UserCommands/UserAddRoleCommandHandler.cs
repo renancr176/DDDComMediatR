@@ -1,5 +1,4 @@
-﻿using ApiMvno.Application.Commands.CompanyCommands;
-using ApiMvno.Domain.Core.Messages.CommonMessages.Notifications;
+﻿using ApiMvno.Domain.Core.Messages.CommonMessages.Notifications;
 using ApiMvno.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using ApiMvno.Application.Models;
-using ApiMvno.Application.Services;
+using ApiMvno.Application.Services.Interfaces;
 using ApiMvno.Domain.Core.Enums;
 using ApiMvno.Domain.Core.Messages.CommonMessages.Notifications;
 using ApiMvno.Domain.Entities;

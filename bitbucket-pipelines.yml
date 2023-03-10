@@ -1,0 +1,137 @@
+﻿definitions:
+  services:
+    docker:
+      image: 
+        name: harbor.telecall.com.br/infra/docker:dind  
+        username: $DOCKER_USER
+        password: $DOCKER_PASS
+      memory: 1024
+      type: docker
+      variables:
+        DOCKER_OPTS: "--mtu=1300"
+  steps:
+    - step: &token-build
+        name: Token and Build Source
+        image: mcr.microsoft.com/dotnet/sdk:6.0
+        script: 
+          - apt-get update && apt-get install -y --no-install-recommends p7zip-full 
+        # Token Configuration WebApi
+          - echo '*** Token Configuration ***'
+          - mkdir artifacts
+        # Artefato k8s WebApi
+          - 7z a k8s.7z ./src/ApiMvno.Services.Api/k8s/*
+          - mv k8s.7z ./artifacts/k8s.7z
+        # Test
+          - echo '*** Test Source ***'
+          - dotnet restore
+          - dotnet build -c Release --no-restore
+          - export REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
+          - dotnet test ./tests/ApiMvno.Test/ApiMvno.Test.csproj --no-build -c Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
+        # Build Source WebApi
+          - echo '*** Build Source WebApi ***'
+          - dotnet publish ./src/ApiMvno.Services.Api/ApiMvno.Services.Api.csproj -c Release -o ./publish
+          - rm ./publish/appsettings.json -f
+          - rm ./publish/appsettings.Development.json -f
+          - rm ./publish/web.config -f
+          - rm ./publish/*.pdb -f
+          - 7z a $PROJECT_NAME.7z ./publish/*
+          - mv $PROJECT_NAME.7z ./artifacts/$PROJECT_NAME.7z
+        artifacts:
+          - artifacts/*.7z
+        runs-on:
+          - self.hosted
+          - linux
+          - build
+    - step: &build-push-deploy
+        name: Build, Push and Deploy Image
+        trigger: manual
+        image: atlassian/pipelines-kubectl
+        services:
+          - docker
+        clone:
+          enabled: false
+        script:
+          - apk update
+          - apk add --update --no-cache gettext p7zip
+          - export DOCKER_BUILDKIT=1
+        # Set KUBECONFIG
+          - | 
+            if [[ "$BITBUCKET_DEPLOYMENT_ENVIRONMENT" == production ]]; then
+              (echo $KUBE_CONFIG_production | base64 -d > kubeconfig.yml);
+            elif [[ "$BITBUCKET_DEPLOYMENT_ENVIRONMENT" == staging ]]; then
+              (echo $KUBE_CONFIG_staging | base64 -d > kubeconfig.yml);
+            fi
+        # Namespace
+          - kubectl get namespace --kubeconfig=kubeconfig.yml | grep -q "^$NAMESPACE" || kubectl create namespace $NAMESPACE --kubeconfig=kubeconfig.yml
+        # Secret for Repository
+          - kubectl delete secret telecall-repository --ignore-not-found --kubeconfig=kubeconfig.yml --namespace=$NAMESPACE
+          - kubectl create secret docker-registry telecall-repository --docker-server=$DOCKER_REGISTRY_SERVER --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASS --kubeconfig=kubeconfig.yml --namespace=$NAMESPACE
+        # Secret for TLS
+          - (umask  077 ; echo $TLS_KEY | base64 -d > telecall.key)
+          - (umask  077 ; echo $TLS_CERT | base64 -d > telecall.crt)
+          - kubectl delete secret telecall-certificate --ignore-not-found --kubeconfig=kubeconfig.yml --namespace=$NAMESPACE
+          - kubectl create secret tls telecall-certificate --key telecall.key --cert telecall.crt --kubeconfig=kubeconfig.yml --namespace=$NAMESPACE
+        # Docker Login
+          - docker login $DOCKER_REGISTRY_SERVER --username $DOCKER_USER --password $DOCKER_PASS
+        # *** Deploy Web Api
+          - echo '*** Deploy Web Api ***'
+          - mkdir deploy
+          - cp ./kubeconfig.yml ./deploy/kubeconfig.yml
+          - 7z x ./artifacts/$PROJECT_NAME.7z -odeploy -r
+          - 7z x ./artifacts/k8s.7z -odeploy -r
+          - cd ./deploy
+        # *** Build and Push Image
+          - echo '**** Build and Push Image Web Api ****'
+          - export IMAGE_NAME=$DOCKER_REGISTRY_SERVER/telecall/$PROJECT_NAME:$IMAGE_TAG
+          - docker build -t $IMAGE_NAME -f dockerfile-kubernetes .
+          - docker push $IMAGE_NAME
+        # *** Deployment Kubernetes
+          - echo '**** Deployment Kubernetes ****'
+        # Token Yaml and App Settings
+          - envsubst < appsettings.json.token > appsettings.json
+          - envsubst < $PROJECT_NAME-$BITBUCKET_DEPLOYMENT_ENVIRONMENT.yaml.token > $PROJECT_NAME-$BITBUCKET_DEPLOYMENT_ENVIRONMENT.yaml          
+        # Register Secrets for AppSettings.json
+          - kubectl delete secret $PROJECT_NAME-secrets --ignore-not-found --kubeconfig=kubeconfig.yml --namespace=$NAMESPACE            
+          - kubectl create secret generic $PROJECT_NAME-secrets --from-file appsettings.json --kubeconfig=kubeconfig.yml --namespace=$NAMESPACE
+        # Deploy and Rollout
+          - kubectl apply -f $PROJECT_NAME-$BITBUCKET_DEPLOYMENT_ENVIRONMENT.yaml --kubeconfig=kubeconfig.yml
+          - kubectl rollout restart deployment/$PROJECT_NAME -n $NAMESPACE --kubeconfig=kubeconfig.yml
+        runs-on:
+          - self.hosted
+          - linux
+          - deploy              
+pipelines:
+  custom:
+    Production Deployment:
+      - variables:
+        - name: IMAGE_TAG
+          default: production-latest
+          allowed-values:
+            - production-latest    
+      - step: *token-build
+      - step:
+          <<: *build-push-deploy
+          deployment: production      
+    Staging Deployment:
+      - variables:
+        - name: IMAGE_TAG
+          default: staging-latest
+          allowed-values:
+            - staging-latest
+      - step: *token-build
+      - step:
+          <<: *build-push-deploy
+          deployment: staging
+          trigger: automatic
+  branches:
+    master:
+      - step: *token-build
+      - step:
+          <<: *build-push-deploy
+          deployment: production
+    feature/v1.0:
+      - step: *token-build
+      - step:
+          <<: *build-push-deploy
+          deployment: staging
+          trigger: automatic

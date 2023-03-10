@@ -22,53 +22,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ApiMvno.Domain.Entities.AccountType", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnOrder(3);
-
-                    b.Property<bool>("RequireDueDay")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(4);
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Type")
-                        .IsUnique();
-
-                    b.ToTable("AccountTypes", (string)null);
-                });
-
             modelBuilder.Entity("ApiMvno.Domain.Entities.Address", b =>
                 {
                     b.Property<Guid>("Id")
@@ -99,7 +52,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .HasColumnOrder(13);
 
                     b.Property<string>("Details")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnOrder(10);
@@ -188,44 +140,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                     b.ToTable("AddressTypes", (string)null);
                 });
 
-            modelBuilder.Entity("ApiMvno.Domain.Entities.Cn", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(4);
-
-                    b.Property<int>("Code")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Uf")
-                        .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cns", (string)null);
-                });
-
             modelBuilder.Entity("ApiMvno.Domain.Entities.Company", b =>
                 {
                     b.Property<Guid>("Id")
@@ -233,27 +147,9 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnOrder(1);
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(9);
-
-                    b.Property<string>("CntCode")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnOrder(18);
-
-                    b.Property<int?>("CntPersonGroupId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(17);
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnOrder(19);
-
-                    b.Property<string>("DealerCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnOrder(12);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -263,7 +159,7 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -271,64 +167,15 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnOrder(3);
 
-                    b.Property<string>("JscCode")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnOrder(16);
-
-                    b.Property<string>("LogoUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnOrder(13);
-
-                    b.Property<Guid?>("MainCompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("MvnoCode")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnOrder(11);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(6);
-
-                    b.Property<bool>("National")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(4);
-
-                    b.Property<string>("SalesforceCode")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnOrder(15);
-
-                    b.Property<string>("SalesforceQueueName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnOrder(14);
-
-                    b.Property<string>("SmallName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(10);
-
-                    b.Property<string>("TradeName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(2);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnOrder(20);
-
-                    b.Property<bool>("ValidateDocument")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(8);
 
                     b.HasKey("Id");
 
@@ -336,53 +183,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .IsUnique();
 
                     b.ToTable("Companies", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyAccountType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<long>("AccountTypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(3);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(5);
-
-                    b.Property<Guid?>("CompanyDueDayId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(4);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountTypeId");
-
-                    b.HasIndex("CompanyDueDayId");
-
-                    b.HasIndex("CompanyId", "AccountTypeId")
-                        .IsUnique();
-
-                    b.ToTable("CompanyAccountTypes", (string)null);
                 });
 
             modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyAddress", b =>
@@ -422,207 +222,7 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                     b.ToTable("CompanyAddresses", (string)null);
                 });
 
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyCn", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CnId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CnId");
-
-                    b.HasIndex("CompanyId", "CnId")
-                        .IsUnique();
-
-                    b.ToTable("CompanyCns", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyContact", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(9);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(4);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(3);
-
-                    b.Property<bool>("NotifyChanges")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("CompanyContacts", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyContactPhone", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CompanyContactId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<Guid>("PhoneId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PhoneId");
-
-                    b.HasIndex("CompanyContactId", "PhoneId")
-                        .IsUnique();
-
-                    b.ToTable("CompanyContactPhones", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyDueDay", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<Guid>("DueDayId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DueDayId");
-
-                    b.HasIndex("CompanyId", "DueDayId")
-                        .IsUnique();
-
-                    b.ToTable("CompanyDueDays", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyLineCancelationReason", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<long>("LineCancelationReasonId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LineCancelationReasonId");
-
-                    b.HasIndex("CompanyId", "LineCancelationReasonId")
-                        .IsUnique();
-
-                    b.ToTable("CompanyLineCancelationReasons", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyLineType", b =>
+            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyPhone", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -630,139 +230,7 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .HasColumnOrder(1);
 
                     b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(4);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.Property<Guid>("LineTypeId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
-
-                    b.Property<Guid>("TaxProductId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LineTypeId");
-
-                    b.HasIndex("CompanyId", "LineTypeId")
-                        .IsUnique();
-
-                    b.ToTable("CompanyLineTypes", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyNetworkProfile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("Apn")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnOrder(4);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("DownloadSpeed")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnOrder(5);
-
-                    b.Property<string>("PartnerCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.Property<int>("UpdloadSpeed")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnOrder(6);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("CompanyNetworkProfiles", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyNotification", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("CompanyNotifications", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyPhone", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier")
@@ -792,92 +260,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .IsUnique();
 
                     b.ToTable("CompanyPhones", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanySimCardReplacementReason", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<Guid>("SimCardReplacementReasonId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SimCardReplacementReasonId");
-
-                    b.HasIndex("CompanyId", "SimCardReplacementReasonId")
-                        .IsUnique();
-
-                    b.ToTable("CompanySimCardReplacementReasons", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyWebhook", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.Property<Guid>("EventTypeId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(3);
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnOrder(4);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventTypeId");
-
-                    b.HasIndex("CompanyId", "EventTypeId")
-                        .IsUnique();
-
-                    b.ToTable("CompanyWebhooks", (string)null);
                 });
 
             modelBuilder.Entity("ApiMvno.Domain.Entities.Country", b =>
@@ -920,177 +302,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                     b.ToTable("Countries", (string)null);
                 });
 
-            modelBuilder.Entity("ApiMvno.Domain.Entities.DueDay", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(7);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.Property<int>("CycleEnd")
-                        .HasColumnType("int")
-                        .HasColumnOrder(4);
-
-                    b.Property<int>("CycleStart")
-                        .HasColumnType("int")
-                        .HasColumnOrder(3);
-
-                    b.Property<int>("Day")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(10);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(9);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DueDays", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.EventType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(3);
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EventTypes", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.LineCancelationReason", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LineCancelationReasons", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.LineType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnOrder(3);
-
-                    b.Property<int>("NumasyId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(5);
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Type")
-                        .IsUnique();
-
-                    b.ToTable("LineTypes", (string)null);
-                });
-
             modelBuilder.Entity("ApiMvno.Domain.Entities.Phone", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1100,28 +311,23 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(4);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(6);
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int")
+                    b.Property<long>("Number")
+                        .HasColumnType("bigint")
                         .HasColumnOrder(3);
 
                     b.Property<long>("PhoneTypeId")
                         .HasColumnType("bigint")
                         .HasColumnOrder(2);
 
-                    b.Property<string>("Teste")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(4);
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(5);
 
                     b.HasKey("Id");
 
@@ -1141,319 +347,33 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(4);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(7);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
+                        .HasColumnOrder(3);
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int")
                         .HasColumnOrder(2);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(6);
 
                     b.HasKey("Id");
 
                     b.ToTable("PhoneTypes", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.SimCardReplacementReason", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SimCardReplacementReasons", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.Webhook", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(1);
-
-                    b.Property<Guid>("CompanyWebhookId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnOrder(2);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(8);
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(10);
-
-                    b.Property<string>("JsonData")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("ResponseJson")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnOrder(7);
-
-                    b.Property<int>("Retries")
-                        .HasColumnType("int")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime>("SendDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(4);
-
-                    b.Property<bool>("SuccessResponse")
-                        .HasColumnType("bit")
-                        .HasColumnOrder(5);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnOrder(9);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyWebhookId");
-
-                    b.ToTable("Webhooks", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("ApiMvno.Domain.Entities.Address", b =>
@@ -1475,32 +395,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyAccountType", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.AccountType", "AccountType")
-                        .WithMany("CompanyAccountTypes")
-                        .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.CompanyDueDay", "CompanyDueDay")
-                        .WithMany("CompanyAccountTypes")
-                        .HasForeignKey("CompanyDueDayId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyAccountTypes")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AccountType");
-
-                    b.Navigation("Company");
-
-                    b.Navigation("CompanyDueDay");
-                });
-
             modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyAddress", b =>
                 {
                     b.HasOne("ApiMvno.Domain.Entities.Address", "Address")
@@ -1510,140 +404,12 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .IsRequired();
 
                     b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyAddress")
+                        .WithMany("CompanyAddresses")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Address");
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyCn", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Cn", "Cns")
-                        .WithMany("CompanyCns")
-                        .HasForeignKey("CnId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyCns")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cns");
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyContact", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyContacts")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyContactPhone", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.CompanyContact", "CompanyContact")
-                        .WithMany("CompanyContactPhones")
-                        .HasForeignKey("CompanyContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.Phone", "Phone")
-                        .WithMany("CompanyContactPhones")
-                        .HasForeignKey("PhoneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CompanyContact");
-
-                    b.Navigation("Phone");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyDueDay", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyDueDays")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.DueDay", "DueDay")
-                        .WithMany("CompanyDueDays")
-                        .HasForeignKey("DueDayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("DueDay");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyLineCancelationReason", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyLineCancelationReasons")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.LineCancelationReason", "LineCancelationReason")
-                        .WithMany("CompanyLineCancelationReasons")
-                        .HasForeignKey("LineCancelationReasonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("LineCancelationReason");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyLineType", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyLineTypes")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.LineType", "LineType")
-                        .WithMany("CompanyLineTypes")
-                        .HasForeignKey("LineTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("LineType");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyNetworkProfile", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyNetworkProfiles")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyNotification", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyNotifications")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Company");
                 });
@@ -1667,44 +433,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                     b.Navigation("Phone");
                 });
 
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanySimCardReplacementReason", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanySimCardReplacementReasons")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.SimCardReplacementReason", "SimCardReplacementReason")
-                        .WithMany("CompanySimCardReplacementReasons")
-                        .HasForeignKey("SimCardReplacementReasonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("SimCardReplacementReason");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyWebhook", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.Company", "Company")
-                        .WithMany("CompanyWebhooks")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.EventType", "EventType")
-                        .WithMany("CompanyWebhooks")
-                        .HasForeignKey("EventTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-
-                    b.Navigation("EventType");
-                });
-
             modelBuilder.Entity("ApiMvno.Domain.Entities.Phone", b =>
                 {
                     b.HasOne("ApiMvno.Domain.Entities.PhoneType", "PhoneType")
@@ -1714,73 +442,6 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                         .IsRequired();
 
                     b.Navigation("PhoneType");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.Webhook", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.CompanyWebhook", "CompanyWebhook")
-                        .WithMany("Webhooks")
-                        .HasForeignKey("CompanyWebhookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CompanyWebhook");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApiMvno.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
-                {
-                    b.HasOne("ApiMvno.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.AccountType", b =>
-                {
-                    b.Navigation("CompanyAccountTypes");
                 });
 
             modelBuilder.Entity("ApiMvno.Domain.Entities.Address", b =>
@@ -1793,51 +454,11 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                     b.Navigation("Addresses");
                 });
 
-            modelBuilder.Entity("ApiMvno.Domain.Entities.Cn", b =>
-                {
-                    b.Navigation("CompanyCns");
-                });
-
             modelBuilder.Entity("ApiMvno.Domain.Entities.Company", b =>
                 {
-                    b.Navigation("CompanyAccountTypes");
-
-                    b.Navigation("CompanyAddress");
-
-                    b.Navigation("CompanyCns");
-
-                    b.Navigation("CompanyContacts");
-
-                    b.Navigation("CompanyDueDays");
-
-                    b.Navigation("CompanyLineCancelationReasons");
-
-                    b.Navigation("CompanyLineTypes");
-
-                    b.Navigation("CompanyNetworkProfiles");
-
-                    b.Navigation("CompanyNotifications");
+                    b.Navigation("CompanyAddresses");
 
                     b.Navigation("CompanyPhones");
-
-                    b.Navigation("CompanySimCardReplacementReasons");
-
-                    b.Navigation("CompanyWebhooks");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyContact", b =>
-                {
-                    b.Navigation("CompanyContactPhones");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyDueDay", b =>
-                {
-                    b.Navigation("CompanyAccountTypes");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.CompanyWebhook", b =>
-                {
-                    b.Navigation("Webhooks");
                 });
 
             modelBuilder.Entity("ApiMvno.Domain.Entities.Country", b =>
@@ -1845,41 +466,14 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Migrations
                     b.Navigation("Addresses");
                 });
 
-            modelBuilder.Entity("ApiMvno.Domain.Entities.DueDay", b =>
-                {
-                    b.Navigation("CompanyDueDays");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.EventType", b =>
-                {
-                    b.Navigation("CompanyWebhooks");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.LineCancelationReason", b =>
-                {
-                    b.Navigation("CompanyLineCancelationReasons");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.LineType", b =>
-                {
-                    b.Navigation("CompanyLineTypes");
-                });
-
             modelBuilder.Entity("ApiMvno.Domain.Entities.Phone", b =>
                 {
-                    b.Navigation("CompanyContactPhones");
-
                     b.Navigation("CompanyPhones");
                 });
 
             modelBuilder.Entity("ApiMvno.Domain.Entities.PhoneType", b =>
                 {
                     b.Navigation("Phones");
-                });
-
-            modelBuilder.Entity("ApiMvno.Domain.Entities.SimCardReplacementReason", b =>
-                {
-                    b.Navigation("CompanySimCardReplacementReasons");
                 });
 #pragma warning restore 612, 618
         }

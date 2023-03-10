@@ -8,9 +8,8 @@
 
   <ItemGroup>
     <Folder Include="AutoMapper\" />
-    <Folder Include="Commands\PhoneCommands\" />
-    <Folder Include="Services\" />
-    <Folder Include="Queries\" />
+    <Folder Include="Models\Responses\" />
+    <Folder Include="Attributes\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ApiMvno.Domain.Core\ApiMvno.Domain.Core.csproj" />
     <ProjectReference Include="..\ApiMvno.Domain\ApiMvno.Domain.csproj" />
-    <ProjectReference Include="..\ApiMvno.Infra.CrossCutting.Mail\ApiMvno.Infra.CrossCutting.Mail.csproj" />
   </ItemGroup>
 
 </Project>

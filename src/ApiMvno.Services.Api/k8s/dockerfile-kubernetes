@@ -1,0 +1,22 @@
+﻿# Imagem Base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+
+# SET REGION
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Copia da Publicação ASP .Net Core ( COPY Origem Destino )
+COPY . /app
+
+# Diretorio
+WORKDIR /app 
+
+# Variavel de Ambiente
+ENV ASPNETCORE_URLS http://*:80
+ENV ASPNETCORE_ENVIRONMENT Production
+
+# Expor Porta 
+EXPOSE 80
+
+# Selecao do Entrypoint Inicial
+ENTRYPOINT ["dotnet", "ApiMvno.Services.Api.dll"]

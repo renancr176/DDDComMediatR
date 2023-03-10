@@ -1,4 +1,4 @@
-﻿using ApiMvno.Application.Services;
+﻿using ApiMvno.Application.Services.Interfaces;
 using ApiMvno.Domain.Core.Enums;
 using ApiMvno.Domain.Core.Messages.CommonMessages.Notifications;
 using ApiMvno.Domain.Entities;
@@ -22,10 +22,10 @@ public class UserChangeStatusCommandHandler : IRequestHandler<UserChangeStatusCo
 
     #region Consts
 
-    private const string InternalServerError = "An internal server error has occurred, please try again later.";
-    private const string UserNotFound = "User not found";
-    private const string UserCannotChangeOwnStatus = "User cannot change own status.";
-    private const string CannotChangeCustomersStatus = "Cannot change customers status.";
+    public const string InternalServerError = "An internal server error has occurred, please try again later.";
+    public const string UserNotFound = "User not found";
+    public const string UserCannotChangeOwnStatus = "User cannot change own status.";
+    public const string CannotChangeCustomersStatus = "Cannot change customers status.";
 
     #endregion
 

@@ -22,8 +22,8 @@ public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, b
 
     #region Consts
 
-    private const string InternalServerError = "An internal server error has occurred, please try again later.";
-    private const string InvalidToken = "Invalid confirmation token.";
+    public const string InternalServerError = "An internal server error has occurred, please try again later.";
+    public const string InvalidToken = "Invalid confirmation token.";
 
     #endregion
 

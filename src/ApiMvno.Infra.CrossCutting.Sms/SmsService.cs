@@ -17,7 +17,7 @@ public class SmsService : ISmsService
 
     public async Task<bool> Authenticate()
     {
-        if (SmsApiAuthToken == null || SmsApiAuthToken.Expiration <= DateTime.Now.AddMinutes(-5))
+        if (SmsApiAuthToken == null || SmsApiAuthToken.Expiration.ToUniversalTime() <= DateTime.UtcNow.AddMinutes(-5))
         {
             var result = await new Url(_smsApiOptions.Url).Clone()
                 .AppendPathSegment("/user/auth")

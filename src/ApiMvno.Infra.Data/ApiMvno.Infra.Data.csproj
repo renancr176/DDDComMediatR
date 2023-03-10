@@ -27,6 +27,14 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contexts\IdentityDb\Migrations\" />
+    <Folder Include="Contexts\IdentityDb\Mappings\" />
+    <Folder Include="Contexts\IdentityDb\Seeders\Interfaces\" />
+    <Folder Include="Contexts\MvnoDb\Migrations\" />
   </ItemGroup>
 
 </Project>

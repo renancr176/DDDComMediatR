@@ -1,21 +1,37 @@
 ﻿using ApiMvno.Application.Models;
 using ApiMvno.Domain.Core.Messages;
-using ApiMvno.Domain.Enums;
 
 namespace ApiMvno.Application.Commands.AddressCommands
 {
     public class CreateAddressCommand : Command<AddressModel>
     {
-        
-        public Guid Id { get; private set; }
-        public Guid CountryId { get; private set; }
-        public AddressTypeEnum AddressType { get; private set; }
-        public string ZipCode { get; private set; }
-        public string State { get; private set; }
-        public string City { get; private set; }
-        public string Neighborhood { get; private set; }
-        public string StreetName { get; private set; }
-        public string StreetNumber { get; private set; }
-        public string Details { get; private set; }
+        public long AddressTypeId { get; set; }
+        public string ZipCode { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public string Neighborhood { get; set; }
+        public string StreetName { get; set; }
+        public int StreetNumber { get; set; }
+        public string? Details { get; set; }
+        public Guid CountryId { get; set; }
+
+        public CreateAddressCommand()
+        {
+        }
+
+        public CreateAddressCommand(long addressTypeId, string zipCode, string state,
+            string city, string neighborhood, string streetName, int streetNumber,
+            string? details, Guid countryId)
+        {
+            AddressTypeId = addressTypeId;
+            ZipCode = zipCode;
+            State = state;
+            City = city;
+            Neighborhood = neighborhood;
+            StreetName = streetName;
+            StreetNumber = streetNumber;
+            Details = details;
+            CountryId = countryId;
+        }
     }
 }

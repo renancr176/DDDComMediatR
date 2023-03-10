@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using ApiMvno.Domain.Core.Messages;
+﻿using ApiMvno.Domain.Core.Messages;
 
 namespace ApiMvno.Domain.Core.DomainObjects;
 
@@ -75,11 +74,6 @@ public abstract class Entity
     public override string ToString()
     {
         return GetType().Name + "[Id = " + Id + "]";
-    }
-
-    public virtual bool IsVaid()
-    {
-        throw new NotImplementedException();
     }
 }
 

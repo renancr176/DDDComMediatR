@@ -13,5 +13,16 @@ namespace ApiMvno.Domain.Entities
         public virtual ICollection<Address> Addresses { get; set; }
 
         #endregion
+
+        public Country()
+        {
+        }
+
+        public Country(string name, string phoneCode, bool active)
+        {
+            Name = name;
+            PhoneCode = phoneCode;
+            Active = active;
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Mappings
             #region Relationships
 
             builder.HasOne(entity => entity.Company)
-                .WithMany(entity => entity.CompanyAddress)
+                .WithMany(entity => entity.CompanyAddresses)
                 .HasForeignKey(entity => entity.CompanyId);
 
             builder.HasOne(entity => entity.Address)

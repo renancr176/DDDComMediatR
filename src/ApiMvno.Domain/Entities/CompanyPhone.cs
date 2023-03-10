@@ -6,6 +6,7 @@ namespace ApiMvno.Domain.Entities
     {
         public Guid CompanyId { get; set; }
         public Guid PhoneId { get; set; }
+        public bool Active { get; set; } = true;
 
         #region Relationships
 
@@ -13,5 +14,19 @@ namespace ApiMvno.Domain.Entities
         public virtual Phone Phone { get; set; }
         
         #endregion
+
+        public CompanyPhone()
+        {
+        }
+
+        public CompanyPhone(Guid phoneId)
+        {
+            PhoneId = phoneId;
+        }
+
+        public CompanyPhone(Phone phone)
+        {
+            Phone = phone;
+        }
     }
 }

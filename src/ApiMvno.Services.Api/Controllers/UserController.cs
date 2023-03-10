@@ -1,6 +1,6 @@
 ﻿using ApiMvno.Application.Commands.UserCommands;
 using ApiMvno.Application.Models;
-using ApiMvno.Domain.Core.Enums;
+using ApiMvno.Application.Services.Interfaces;
 using ApiMvno.Domain.Core.Messages.CommonMessages.Notifications;
 using ApiMvno.Services.Api.Models.Responses;
 using MediatR;
@@ -12,23 +12,26 @@ namespace ApiMvno.Services.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize("Bearer", Roles = $"{nameof(RoleEnum.Admin)}")]
+    [Authorize]
     public class UserController : BaseController
     {
         private readonly IMediator _mediatorHandler;
+        private readonly IUserService _userService;
 
         public UserController(INotificationHandler<DomainNotification> notifications, IMediator mediatorHandler,
-            IHttpContextAccessor httpContextAccessor) 
-            : base(notifications, mediatorHandler, httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, IUserService userService) 
+            : base(notifications, mediatorHandler,
+            httpContextAccessor)
         {
             _mediatorHandler = mediatorHandler;
+            _userService = userService;
         }
 
-        [HttpPost("SingIn")]
+        [HttpPost("SignIn")]
         [AllowAnonymous]
-        [SwaggerResponse(200, Type = typeof(BaseResponse<SingInResponseModel>))]
+        [SwaggerResponse(200, Type = typeof(BaseResponse<SignInResponseModel>))]
         [SwaggerResponse(400, Type = typeof(BaseResponse))]
-        public async Task<IActionResult> SingInAsync([FromBody] SingInCommand request)
+        public async Task<IActionResult> SignInAsync([FromBody] SignInCommand request)
         {
             if (!ModelState.IsValid) return InvalidModelResponse();
 
@@ -75,6 +78,7 @@ namespace ApiMvno.Services.Api.Controllers
         [AllowAnonymous]
         [ApiExplorerSettings(IgnoreApi = false)]
 #else
+        [Authorize("Bearer", Roles = $"{nameof(RoleEnum.Admin)}")]
         [ApiExplorerSettings(IgnoreApi = true)]
 #endif
         public async Task<IActionResult> SignUpAsync([FromBody] SignUpCommand request)
@@ -91,6 +95,7 @@ namespace ApiMvno.Services.Api.Controllers
         [AllowAnonymous]
         [ApiExplorerSettings(IgnoreApi = false)]
 #else
+        [Authorize("Bearer", Roles = $"{nameof(RoleEnum.Admin)}")]
         [ApiExplorerSettings(IgnoreApi = true)]
 #endif
         public async Task<IActionResult> IncludeRoleAsync([FromBody] UserAddRoleCommand request)
@@ -107,6 +112,7 @@ namespace ApiMvno.Services.Api.Controllers
         [AllowAnonymous]
         [ApiExplorerSettings(IgnoreApi = false)]
 #else
+        [Authorize("Bearer", Roles = $"{nameof(RoleEnum.Admin)}")]
         [ApiExplorerSettings(IgnoreApi = true)]
 #endif
         public async Task<IActionResult> ChangeStatusAsync([FromBody] UserChangeStatusCommand request)
@@ -115,7 +121,67 @@ namespace ApiMvno.Services.Api.Controllers
 
             return Response(await _mediatorHandler.Send(request));
         }
-        
 
+        [HttpGet("Companies")]
+        [SwaggerResponse(200, Type = typeof(BaseResponse<IEnumerable<UserCompanyModel>?>))]
+        [SwaggerResponse(400, Type = typeof(BaseResponse))]
+#if DEBUG
+        [ApiExplorerSettings(IgnoreApi = false)]
+#else
+        [ApiExplorerSettings(IgnoreApi = true)]
+#endif
+        public async Task<IActionResult> CurrentUserCompaniesAsync()
+        {
+            return Response(await _userService.CurrentUserCompaniesWithNameAsync());
+        }
+
+        [HttpGet("{id:guid}/Companies")]
+        [SwaggerResponse(200, Type = typeof(BaseResponse<IEnumerable<UserCompanyModel>?>))]
+        [SwaggerResponse(400, Type = typeof(BaseResponse))]
+#if DEBUG
+        [AllowAnonymous]
+        [ApiExplorerSettings(IgnoreApi = false)]
+#else
+        [Authorize("Bearer", Roles = $"{nameof(RoleEnum.Admin)}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+#endif
+        public async Task<IActionResult> UserCompaniesAsync(Guid id)
+        {
+            return Response(await _userService.UserCompaniesWithNameAsync(id));
+        }
+        
+        [HttpPost("Company")]
+        [SwaggerResponse(200, Type = typeof(BaseResponse))]
+        [SwaggerResponse(400, Type = typeof(BaseResponse))]
+#if DEBUG
+        [AllowAnonymous]
+        [ApiExplorerSettings(IgnoreApi = false)]
+#else
+        [Authorize("Bearer", Roles = $"{nameof(RoleEnum.Admin)}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+#endif
+        public async Task<IActionResult> AddUserCompanyAsync([FromBody] UserAddCompanyCommand request)
+        {
+            if (!ModelState.IsValid) return InvalidModelResponse();
+
+            return Response(await _mediatorHandler.Send(request));
+        }
+
+        [HttpDelete("Company")]
+        [SwaggerResponse(200, Type = typeof(BaseResponse))]
+        [SwaggerResponse(400, Type = typeof(BaseResponse))]
+#if DEBUG
+        [AllowAnonymous]
+        [ApiExplorerSettings(IgnoreApi = false)]
+#else
+        [Authorize("Bearer", Roles = $"{nameof(RoleEnum.Admin)}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+#endif
+        public async Task<IActionResult> DeleteUserCompanyAsync([FromBody] UserDeleteCompanyCommand request)
+        {
+            if (!ModelState.IsValid) return InvalidModelResponse();
+
+            return Response(await _mediatorHandler.Send(request));
+        }
     }
 }

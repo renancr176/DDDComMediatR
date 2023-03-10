@@ -13,5 +13,19 @@ namespace ApiMvno.Domain.Entities
         public virtual Address Address { get; set; }
 
         #endregion
+
+        public CompanyAddress()
+        {
+        }
+
+        public CompanyAddress(Guid addressId)
+        {
+            AddressId = addressId;
+        }
+
+        public CompanyAddress(Address address)
+        {
+            Address = address;
+        }
     }
 }

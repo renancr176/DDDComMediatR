@@ -1,9 +1,12 @@
-﻿using System.Net.Http;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Flurl.Util;
+using Newtonsoft.Json;
 
 namespace ApiMvno.Test.Extensions;
 
@@ -31,7 +34,7 @@ public static class HttpClientExtensions
     //    return client;
     //}
 
-    public static Task<HttpResponseMessage> PatchAsJsonAsync<TValue>(this HttpClient client, string? requestUri,
+    public async static Task<HttpResponseMessage> PatchAsJsonAsync<TValue>(this HttpClient client, string? requestUri,
         TValue value, JsonSerializerOptions? options = null, CancellationToken cancellationToken = default)
     {
         JsonContent content = JsonContent.Create(value, mediaType: null, options);
@@ -42,6 +45,20 @@ public static class HttpClientExtensions
 
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        return client.SendAsync(request, cancellationToken);
+        return await client.SendAsync(request, cancellationToken);
+    }
+
+    public async static Task<TValue> GetFromJsonAsync<TRequest, TValue>(this HttpClient client, string? requestUri,
+        TRequest request, CancellationToken cancellationToken = default)
+    where TRequest : class
+    {
+        var stringParams = JsonConvert.SerializeObject(request, settings: new JsonSerializerSettings()
+        {
+            NullValueHandling = NullValueHandling.Ignore
+        });
+
+        var queryString = string.Join("&",JsonConvert.DeserializeObject(stringParams).ToKeyValuePairs().Select(q => $"{q.Key}={q.Value}"));
+        
+        return await client.GetFromJsonAsync<TValue>($"{requestUri}?{queryString}");
     }
 }

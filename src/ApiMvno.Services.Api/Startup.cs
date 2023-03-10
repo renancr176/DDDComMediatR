@@ -1,13 +1,17 @@
 ﻿using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using ApiMvno.Domain.Core.Options;
 using ApiMvno.Domain.Entities;
 using ApiMvno.Infra.CrossCutting.IoC;
-using ApiMvno.Infra.Data.Contexts.MvnoDb;
+using ApiMvno.Infra.Data.Contexts.IdentityDb;
+using ApiMvno.Services.Api.Filters;
+using ApiMvno.Services.Api.Middlewares;
 using ApiMvno.Services.Api.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -31,14 +35,18 @@ public class Startup : IStartup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers()
+            .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         services.AddEndpointsApiExplorer();
         services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
         services.AddAutoMapper(typeof(Startup).GetTypeInfo().Assembly);
         services.AddHttpContextAccessor();
+        services.AddHealthChecks();
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "InscricaoChllApi", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "MVNOApi", Version = "v1" });
+            c.SchemaFilter<SwaggerSchemaFilter>();
+            c.OperationFilter<SwaggerOperationFilter>();
 
             c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme()
             {
@@ -114,7 +122,7 @@ public class Startup : IStartup
             options.Password.RequireUppercase = true;
             options.Password.RequireLowercase = true;
         })
-        .AddEntityFrameworkStores<MvnoDbContext>()
+        .AddEntityFrameworkStores<IdentityDbContext>()
         .AddDefaultTokenProviders();
 
         var appSettingJwtTokenOptions = Configuration.GetSection(JwtTokenOptions.sectionKey).Get<JwtTokenOptions>();
@@ -191,22 +199,52 @@ public class Startup : IStartup
         }
 
         app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "InscricaoChllApi v1"));
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MVNOApi v1"));
 
         app.UseHttpsRedirection();
+
+        app.UseRouting();
 
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseCors(MyAllowSpecificOrigins);
+        app.UseRequestResponseMiddleware();
 
-        app.MapControllers();
+        app.Use((context, next) =>
+        {
+            context.Request.EnableBuffering();
+            return next();
+        });
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+
+            //endpoints.MapHealthChecks("/health/mvno-connection/live", new HealthCheckOptions
+            //{
+            //    Predicate = healthCheck => healthCheck.Tags.Contains("mvno-connection")
+            //});
+            //endpoints.MapHealthChecks("/health/rabbitmq/live", new HealthCheckOptions
+            //{
+            //    Predicate = healthCheck => healthCheck.Tags.Contains("rabbitmq")
+            //});
+            endpoints.MapHealthChecks("/health/ready", new HealthCheckOptions
+            {
+                Predicate = healthCheck => healthCheck.Tags.Contains("ready")
+            });
+            endpoints.MapHealthChecks("/health/live", new HealthCheckOptions
+            {
+                Predicate = _ => false
+            });
+        });
     }
 
     private void Init(IServiceProvider serviceProvider)
     {
         if (Environment?.IsProduction() ?? false)
         {
-            serviceProvider.MvnoDbMigrate();
+            //serviceProvider.MvnoDbMigrate();
+            //serviceProvider.IdentityDbMigrate();
         }
     }
 }

@@ -14,22 +14,25 @@ namespace ApiMvno.Infra.Data.Contexts.MvnoDb.Mappings
 
             builder.ToTable("PhoneTypes");
 
+            builder.Property(entity => entity.Type)
+                .HasColumnOrder(2);
+
             builder.Property(entity => entity.Name)
                 .HasMaxLength(50)
                 .IsRequired()
-                .HasColumnOrder(2);
-
-            builder.Property(entity => entity.Active)
                 .HasColumnOrder(3);
 
-            builder.Property(entity => entity.CreatedAt)
+            builder.Property(entity => entity.Active)
                 .HasColumnOrder(4);
 
-            builder.Property(entity => entity.UpdatedAt)
+            builder.Property(entity => entity.CreatedAt)
                 .HasColumnOrder(5);
 
-            builder.Property(entity => entity.DeletedAt)
+            builder.Property(entity => entity.UpdatedAt)
                 .HasColumnOrder(6);
+
+            builder.Property(entity => entity.DeletedAt)
+                .HasColumnOrder(7);
 
             #region Relationships
 

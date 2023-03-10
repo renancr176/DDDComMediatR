@@ -14,4 +14,15 @@ public class AddressType : EntityIntId
     public virtual ICollection<Address> Addresses { get; set; }
 
     #endregion
+
+    public AddressType()
+    {
+    }
+
+    public AddressType(AddressTypeEnum type, string name, bool active)
+    {
+        Type = type;
+        Name = name;
+        Active = active;
+    }
 }

@@ -16,6 +16,7 @@ public static class AutoMapperConfiguration
         {
             cfg.AddProfile<CommandToEntityMappingProfile>();
             cfg.AddProfile<EntityToModelMappingProfile>();
+            cfg.AddProfile<ConvertObjectsProfile>();
         });
     }
 }
